@@ -40,7 +40,6 @@ const Autocomplete = (props) => {
               {...getTagProps({ index })}
             />
           ))}
-          {/* <TextField {...getInputProps()}  placeholder="Roles" /> */}
           <input {...getInputProps()} />
           {value.length > 0 && <StyledCloseIcon {...getClearProps()} />}
           <StyledExpandMoreIcon {...getPopupIndicatorProps()} />
@@ -89,7 +88,7 @@ const Root = styled("div")(
         : "rgba(0,0,0,.85)"
     };
     font-size: 14px;
-  `,
+  `
 );
 
 const Label = styled("label")`
@@ -143,7 +142,7 @@ const StyledTag = styled(Tag)(
         background-color: rgb(255, 189, 173);
         color: rgb(222, 53, 11);
     }
-  `,
+  `
 );
 
 const StyledCloseIcon = styled(CloseIcon)(
@@ -159,7 +158,7 @@ const StyledCloseIcon = styled(CloseIcon)(
     &:focus {
         color: rgb(102, 102, 102);
     }
-  `,
+  `
 );
 
 const StyledExpandMoreIcon = styled(ExpandMoreIcon)(
@@ -177,7 +176,7 @@ const StyledExpandMoreIcon = styled(ExpandMoreIcon)(
     &:focus {
         color: rgb(102, 102, 102);
     }
-  `,
+  `
 );
 
 const Listbox = styled("ul")(
@@ -220,7 +219,7 @@ const Listbox = styled("ul")(
         color: currentColor;
       }
     }
-  `,
+  `
 );
 
 const InputWrapper = styled("div")(
@@ -262,5 +261,5 @@ const InputWrapper = styled("div")(
       margin: 0;
       outline: 0;
     }
-  `,
+  `
 );

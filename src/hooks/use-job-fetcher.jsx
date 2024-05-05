@@ -1,17 +1,42 @@
-import { useState, useCallback, useEffect } from "react";
+import { useReducer, useCallback, useEffect } from "react";
+
+const jobReducer = (state, action) => {
+  switch (action.type) {
+    case "LOADING":
+      return { ...state, loading: true, error: null };
+    case "SUCCESS":
+      return {
+        ...state,
+        jobs: [...state.jobs, ...action.payload.jobs],
+        offset: state.offset + action.payload.jobs.length,
+        hasMore: action.payload.jobs.length === state.limit,
+        loading: false,
+      };
+    case "ERROR":
+      return { ...state, error: action.payload, loading: false };
+    case "RESET":
+      return { ...state, jobs: [], offset: 0, hasMore: true };
+    default:
+      return state;
+  }
+};
 
 export const useJobFetcher = (limit = 10) => {
-  const [jobs, setJobs] = useState([]);
-  const [offset, setOffset] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const initialState = {
+    jobs: [],
+    offset: 0,
+    hasMore: true,
+    loading: false,
+    error: null,
+    limit,
+  };
+
+  const [state, dispatch] = useReducer(jobReducer, initialState);
 
   const fetchJobs = useCallback(async () => {
-    if (loading) return;
+    if (state.loading) return;
 
-    setLoading(true);
-    setError(null);
+    dispatch({ type: "LOADING" });
 
     try {
       const response = await fetch(
@@ -19,28 +44,24 @@ export const useJobFetcher = (limit = 10) => {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ limit, offset }),
-        },
+          body: JSON.stringify({ limit: state.limit, offset: state.offset }),
+        }
       );
       const jsonResponse = await response.json();
       if (jsonResponse && jsonResponse.jdList) {
-        setJobs((prev) => [...prev, ...jsonResponse.jdList]);
-        setOffset((prev) => prev + limit);
-        setHasMore(jsonResponse.jdList.length === limit);
+        dispatch({ type: "SUCCESS", payload: { jobs: jsonResponse.jdList } });
       } else {
-        setHasMore(false);
+        dispatch({ type: "ERROR", payload: new Error("No more data") });
       }
     } catch (error) {
-      setError(error);
-    } finally {
-      setLoading(false);
+      dispatch({ type: "ERROR", payload: error });
     }
-  }, [offset, loading, limit]);
+  }, [state.offset, state.loading, state.limit]);
 
   useEffect(() => {
     fetchJobs();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { jobs, fetchJobs, hasMore, loading, error };
+  return { ...state, fetchJobs };
 };
