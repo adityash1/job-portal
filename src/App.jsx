@@ -1,16 +1,15 @@
 import "./App.css";
-import Autocomplete from "./components/ui/Autocomplete";
-
 import JobList from "./components/ui/JobList";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useJobFetcher } from "./hooks/use-job-fetcher";
+import Filters from "./components/Filters";
 
 function App() {
   const { jobs, fetchJobs, hasMore, loading, error } = useJobFetcher();
 
   return (
     <>
-      <Autocomplete />
+      <Filters />
       <InfiniteScroll
         dataLength={jobs.length}
         next={fetchJobs}

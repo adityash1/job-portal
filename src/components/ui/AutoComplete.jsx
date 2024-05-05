@@ -4,7 +4,67 @@ import CloseIcon from "@mui/icons-material/Close";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { styled } from "@mui/material/styles";
 import { autocompleteClasses } from "@mui/material/Autocomplete";
-// import TextField from "@mui/material/TextField";
+
+const Autocomplete = (props) => {
+  const {
+    getRootProps,
+    getInputLabelProps,
+    getClearProps,
+    getPopupIndicatorProps,
+    getInputProps,
+    getTagProps,
+    getListboxProps,
+    getOptionProps,
+    groupedOptions,
+    value,
+    focused,
+    setAnchorEl,
+  } = useAutocomplete({
+    id: "customized-hook-demo",
+    multiple: true,
+    options: props.options,
+    getOptionLabel: (option) => option.title,
+    getInputLabelProps: props.label,
+    disableClearable: false,
+  });
+
+  return (
+    <Root>
+      <div {...getRootProps()}>
+        <Label {...getInputLabelProps()}>{props.label}</Label>
+        <InputWrapper ref={setAnchorEl} className={focused ? "focused" : ""}>
+          {value.map((option, index) => (
+            <StyledTag
+              key={option.title}
+              label={option.title}
+              {...getTagProps({ index })}
+            />
+          ))}
+          {/* <TextField {...getInputProps()}  placeholder="Roles" /> */}
+          <input {...getInputProps()} />
+          {value.length > 0 && <StyledCloseIcon {...getClearProps()} />}
+          <StyledExpandMoreIcon {...getPopupIndicatorProps()} />
+        </InputWrapper>
+      </div>
+      {groupedOptions.length > 0 ? (
+        <Listbox {...getListboxProps()}>
+          {groupedOptions.map((option, index) => (
+            <li key={option.title} {...getOptionProps({ option, index })}>
+              <span>{option.title}</span>
+            </li>
+          ))}
+        </Listbox>
+      ) : null}
+    </Root>
+  );
+};
+
+Autocomplete.propTypes = {
+  options: PropTypes.array.isRequired,
+  label: PropTypes.string.isRequired,
+};
+
+export default Autocomplete;
 
 const Tag = (props) => {
   const { label, onDelete, ...other } = props;
@@ -21,62 +81,6 @@ Tag.propTypes = {
   onDelete: PropTypes.func.isRequired,
 };
 
-const Autocomplete = () => {
-  const {
-    getRootProps,
-    // getInputLabelProps,
-    getClearProps,
-    getPopupIndicatorProps,
-    getInputProps,
-    getTagProps,
-    getListboxProps,
-    getOptionProps,
-    groupedOptions,
-    value,
-    focused,
-    setAnchorEl,
-  } = useAutocomplete({
-    id: "customized-hook-demo",
-    multiple: true,
-    options: engineeringRoles,
-    getOptionLabel: (option) => option.title,
-    disableClearable: false,
-  });
-
-  // Filter out selected options from the listbox
-  const availableOptions = groupedOptions.filter(
-    (option) => !value.includes(option),
-  );
-
-  return (
-    <Root>
-      <div {...getRootProps()}>
-        {/* <Label {...getInputLabelProps()}>Roles</Label> */}
-        <InputWrapper ref={setAnchorEl} className={focused ? "focused" : ""}>
-          {value.map((option, index) => (
-            <StyledTag label={option.title} {...getTagProps({ index })} />
-          ))}
-          {/* <TextField {...getInputProps()}  placeholder="Roles" /> */}
-          <input {...getInputProps()} />
-          {value.length > 0 && <StyledCloseIcon {...getClearProps()} />}
-          <StyledExpandMoreIcon {...getPopupIndicatorProps()} />
-        </InputWrapper>
-      </div>
-      {availableOptions.length > 0 ? (
-        <Listbox {...getListboxProps()}>
-          {availableOptions.map((option, index) => (
-            <li {...getOptionProps({ option, index })}>
-              <span>{option.title}</span>
-            </li>
-          ))}
-        </Listbox>
-      ) : null}
-    </Root>
-  );
-};
-
-export default Autocomplete;
-
 const Root = styled("div")(
   ({ theme }) => `
     color: ${
@@ -88,12 +92,12 @@ const Root = styled("div")(
   `,
 );
 
-// const Label = styled("label")`
-//   font-size: 13px;
-//   font-weight: 500;
-//   display: block;
-//   text-align: left;
-// `;
+const Label = styled("label")`
+  font-size: 13px;
+  font-weight: 500;
+  display: block;
+  text-align: left;
+`;
 
 const StyledTag = styled(Tag)(
   ({ theme }) => `
@@ -178,10 +182,11 @@ const StyledExpandMoreIcon = styled(ExpandMoreIcon)(
 
 const Listbox = styled("ul")(
   ({ theme }) => `
-    width: 100%;
+    width: max-content;
+    min-width: 170px;
     margin: 8px 0 0;
     padding: 0;
-    // position: absolute;
+    position: absolute;
     list-style: none;
     text-align: left;
     background-color: ${theme.palette.mode === "dark" ? "#141414" : "#fff"};
@@ -259,41 +264,3 @@ const InputWrapper = styled("div")(
     }
   `,
 );
-
-// Engineering roles commonly found in tech companies
-const engineeringRoles = [
-  { title: "Software Engineer", year: 2023 },
-  { title: "DevOps Engineer", year: 2023 },
-  { title: "Frontend Developer", year: 2023 },
-  { title: "Backend Developer", year: 2023 },
-  { title: "Full Stack Developer", year: 2023 },
-  { title: "Data Scientist", year: 2023 },
-  { title: "Machine Learning Engineer", year: 2023 },
-  { title: "Data Engineer", year: 2023 },
-  { title: "Network Engineer", year: 2023 },
-  { title: "Security Engineer", year: 2023 },
-  { title: "Cloud Engineer", year: 2023 },
-  { title: "Systems Engineer", year: 2023 },
-  { title: "QA Engineer", year: 2023 },
-  { title: "Site Reliability Engineer", year: 2023 },
-  { title: "Mobile Developer", year: 2023 },
-  { title: "Game Developer", year: 2023 },
-  { title: "Embedded Systems Engineer", year: 2023 },
-  { title: "Hardware Engineer", year: 2023 },
-  { title: "UI/UX Designer", year: 2023 },
-  { title: "Product Manager", year: 2023 },
-  { title: "Technical Writer", year: 2023 },
-  { title: "Database Administrator", year: 2023 },
-  { title: "Web Developer", year: 2023 },
-  { title: "Graphics Designer", year: 2023 },
-  { title: "User Interface Designer", year: 2023 },
-  { title: "User Experience Designer", year: 2023 },
-  { title: "Information Technology Manager", year: 2023 },
-  { title: "Software Architect", year: 2023 },
-  { title: "Enterprise Architect", year: 2023 },
-  { title: "Solution Architect", year: 2023 },
-  { title: "Technical Support Specialist", year: 2023 },
-  { title: "Business Analyst", year: 2023 },
-  { title: "Systems Analyst", year: 2023 },
-  { title: "Project Manager", year: 2023 },
-];
