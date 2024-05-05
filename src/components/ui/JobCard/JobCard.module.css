@@ -102,6 +102,59 @@
     background-color: #d9fed3;
     padding: 2px 7px;
     border-radius: 50px;
-    /* margin: 2px 0 0 7px; */
     margin: 2px 5px 2px 0px;
+}
+
+.status-container {
+    flex-grow: 1 !important;
+    width: -webkit-fill-available !important;
+    padding: 0 15px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important;
+    align-items: flex-start !important;
+}
+
+.apply-btn-wrapper {
+    -webkit-box-pack: justify !important;
+    justify-content: space-between !important;
+    display: flex !important;
+    gap: 0.5rem !important;
+    width: 100% !important;
+}
+
+.apply-btn {
+    width: 100% !important;
+    background-color: rgb(85, 239, 196) !important;
+    color: rgb(0, 0, 0) !important;
+    font-weight: 500 !important;
+    padding: 8px 18px !important;
+    text-transform: none !important;
+    border-radius: 8px !important;
+    margin: 5px 0 !important;
+
+    display: inline-flex !important;
+    -webkit-box-align: center !important;
+    align-items: center !important;
+    -webkit-box-pack: center !important;
+    justify-content: center !important;
+    position: relative !important;
+    box-sizing: border-box !important;
+    -webkit-tap-highlight-color: transparent !important;
+    outline: 0px !important;
+    border: 0px !important;
+    cursor: pointer !important;
+    user-select: none !important;
+    vertical-align: middle !important;
+    appearance: none !important;
+    text-decoration: none !important;
+    font-family: Lexend;
+    line-height: 1.75 !important;
+    min-width: 64px !important;
+    transition:
+        background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+        box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+        border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+        color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms !important;
+    font-size: 16px !important;
 }

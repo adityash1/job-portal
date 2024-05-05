@@ -1,8 +1,5 @@
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
 import styles from "./JobCard.module.css";
+import { Button, Box, Card, CardContent, Typography } from "@mui/material";
 
 const JobCard = () => {
   return (
@@ -95,6 +92,13 @@ const JobCard = () => {
           <h2>5 years</h2>
         </div>
       </CardContent>
+      <Box component="div" className={styles["status-container"]}>
+        <Box component="div" className={styles["apply-btn-wrapper"]}>
+          <Button size="medium" className={styles["apply-btn"]}>
+            ⚡ Easy Apply
+          </Button>
+        </Box>
+      </Box>
     </Card>
   );
 };
