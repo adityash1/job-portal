@@ -1,24 +1,41 @@
-import styles from "./JobCard.module.css";
 import { Button, Box, Card, CardContent, Typography } from "@mui/material";
+import PropTypes from "prop-types";
+import styles from "./JobCard.module.css";
 
-const JobCard = () => {
+const JobCard = ({ job }) => {
+  const {
+    logoUrl,
+    companyName,
+    jobRole,
+    location,
+    minExp,
+    maxExp,
+    maxJdSalary,
+    minJdSalary,
+    salaryCurrencyCode,
+    jobDetailsFromCompany,
+    jdLink,
+  } = job;
+
   return (
     <Card className={styles["card-body"]} elevation={1}>
       <CardContent className={styles["card-content"]}>
         <Box component="div" className={styles["logo-wrapper"]}>
           <Box
             component="img"
-            src="https://logo.clearbit.com/dropbox.com"
+            src={logoUrl}
             width={25}
             height={40}
             alt="logo"
           />
           <div>
             <div className={styles["info-container"]}>
-              <Box component="h3">FlexWash Technologies</Box>
-              <h2>Senior Engineer</h2>
+              <Box component="h3">{companyName}</Box>
+              <h2>{jobRole}</h2>
             </div>
-            <p className={styles["cards-sub-text"]}>India | Exp: 5-5 years</p>
+            <p className={styles["cards-sub-text"]}>
+              {location} | Exp: {minExp}-{maxExp} years
+            </p>
           </div>
         </Box>
 
@@ -27,7 +44,8 @@ const JobCard = () => {
           component="p"
           className={styles["card-salary"]}
         >
-          Estimated Salary: ₹30 - 60 LPA ✅
+          {minJdSalary ? `${minJdSalary}K - ` : ""}
+          {maxJdSalary}K {salaryCurrencyCode} ✅
         </Typography>
 
         <Box component="div" className={styles["about-job-wrapper"]}>
@@ -45,52 +63,15 @@ const JobCard = () => {
             </p>
             <p>
               <span style={{ fontWeight: 400, fontSize: "14px" }}>
-                Flex Wash is an operating system for the car wash industry. Our
-                solutions help owners manage their operations and grow
-                revenue.&nbsp;
+                {jobDetailsFromCompany}
               </span>
-            </p>
-            <p>
-              <span style={{ fontWeight: 400, fontSize: "14px" }}>
-                Our POS has a built-in CRM, allowing car washes to take
-                advantage of their customer transaction history in order to
-                funnel customers into subscriptions and higher margin wash
-                packages.
-              </span>
-            </p>
-            <p>&nbsp;</p>
-            <p>
-              <strong style={{ fontSize: "14px" }}>
-                Founder/Recruiter profiles:
-              </strong>
-            </p>
-            <p>
-              <a href="https://www.linkedin.com/in/chirag-singh-toor-94713aa7/">
-                <span style={{ fontWeight: 400 }}>Chirag Singh Toor</span>
-              </a>
             </p>
           </Box>
         </Box>
 
         <Box component="div" className={styles["view-job"]}>
-          <a href="https://weekday.works">View job</a>
+          <a href={jdLink}>View job</a>
         </Box>
-
-        <div
-          className={`${styles["info-container"]} ${styles["poc-info-container"]}`}
-        >
-          <h3 style={{ marginTop: "10px" }}>Skills</h3>
-          <div
-            className={styles["hard-lang-container"]}
-            style={{ justifyContent: "start", margin: "0px" }}
-          >
-            <p className={styles["hard-lang-skill"]}>Typescript</p>
-            <p className={styles["hard-lang-skill"]}>Founding Engineer</p>
-            <p className={styles["hard-lang-skill"]}>Senior Engineer</p>
-          </div>
-          <h3 style={{ marginTop: "10px" }}>Minimum Experience</h3>
-          <h2>5 years</h2>
-        </div>
       </CardContent>
       <Box component="div" className={styles["status-container"]}>
         <Box component="div" className={styles["apply-btn-wrapper"]}>
@@ -101,6 +82,22 @@ const JobCard = () => {
       </Box>
     </Card>
   );
+};
+
+JobCard.propTypes = {
+  job: PropTypes.shape({
+    logoUrl: PropTypes.string,
+    companyName: PropTypes.string.isRequired,
+    jobRole: PropTypes.string.isRequired,
+    location: PropTypes.string,
+    minExp: PropTypes.number,
+    maxExp: PropTypes.number,
+    maxJdSalary: PropTypes.number,
+    minJdSalary: PropTypes.number,
+    salaryCurrencyCode: PropTypes.string,
+    jobDetailsFromCompany: PropTypes.string,
+    jdLink: PropTypes.string,
+  }).isRequired,
 };
 
 export default JobCard;
