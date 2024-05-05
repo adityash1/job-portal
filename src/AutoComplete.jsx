@@ -41,8 +41,12 @@ export default function CustomizedHook() {
     options: engineeringRoles,
     getOptionLabel: (option) => option.title,
     disableClearable: false,
-    placeholder: "DKsndkl",
   });
+
+  // Filter out selected options from the listbox
+  const availableOptions = groupedOptions.filter(
+    (option) => !value.includes(option),
+  );
 
   return (
     <Root>
@@ -58,9 +62,9 @@ export default function CustomizedHook() {
           <StyledExpandMoreIcon {...getPopupIndicatorProps()} />
         </InputWrapper>
       </div>
-      {groupedOptions.length > 0 ? (
+      {availableOptions.length > 0 ? (
         <Listbox {...getListboxProps()}>
-          {groupedOptions.map((option, index) => (
+          {availableOptions.map((option, index) => (
             <li {...getOptionProps({ option, index })}>
               <span>{option.title}</span>
             </li>
