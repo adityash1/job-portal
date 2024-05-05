@@ -1,1 +1,3 @@
-export { default as JobCard } from "./JobCard";
+import JobCard from "./JobCard";
+
+export default JobCard;

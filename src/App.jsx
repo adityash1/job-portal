@@ -1,44 +1,27 @@
 import "./App.css";
-import { useEffect, useState } from "react";
 import Autocomplete from "./components/ui/Autocomplete";
-import { JobList } from "./components/JobList/JobList";
 
-const ENDPOINT = "https://api.weekday.technology/adhoc/getSampleJdJSON";
+import JobList from "./components/ui/JobList";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { useJobFetcher } from "./hooks/use-job-fetcher";
 
 function App() {
-  const [jobs, setJobs] = useState([]);
-
-  useEffect(() => {
-    const data = {
-      limit: 10,
-      offset: 0,
-    };
-
-    const postData = async (url, data) => {
-      try {
-        const response = await fetch(url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        });
-        const jsonResponse = await response.json();
-        if (jsonResponse && jsonResponse.jdList) {
-          setJobs(jsonResponse.jdList);
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-
-    postData(ENDPOINT, data);
-  }, []);
+  const { jobs, fetchJobs, hasMore, loading, error } = useJobFetcher();
 
   return (
     <>
       <Autocomplete />
-      {jobs.length > 0 && <JobList jobs={jobs} />}
+      <InfiniteScroll
+        dataLength={jobs.length}
+        next={fetchJobs}
+        hasMore={hasMore}
+        endMessage={<p>No more data to load.</p>}
+        style={{ padding: "2px" }}
+      >
+        {jobs.length > 0 && <JobList jobs={jobs} />}
+      </InfiniteScroll>
+      {error && <p>Error: {error.message}</p>}
+      {loading && <p>Loading more jobs...</p>}
     </>
   );
 }
