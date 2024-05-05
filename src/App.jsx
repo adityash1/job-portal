@@ -1,20 +1,14 @@
-// import { useState } from "react";
 import "./App.css";
-// import { Button } from "@mui/material";
-import CustomizedHook from "./Autocomplete";
+import Autocomplete from "./components/ui/Autocomplete";
+import { JobCard } from "./components/ui/JobCard";
 
 function App() {
   // const [count, setCount] = useState(0);
 
   return (
     <>
-      {/* <Button
-        variant="contained"
-        onClick={() => setCount((count) => count + 1)}
-      >
-        count is {count}
-      </Button> */}
-      <CustomizedHook />
+      <Autocomplete />
+      <JobCard />
     </>
   );
 }

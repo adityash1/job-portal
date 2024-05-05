@@ -6,7 +6,7 @@ import { styled } from "@mui/material/styles";
 import { autocompleteClasses } from "@mui/material/Autocomplete";
 // import TextField from "@mui/material/TextField";
 
-function Tag(props) {
+const Tag = (props) => {
   const { label, onDelete, ...other } = props;
   return (
     <div {...other}>
@@ -14,14 +14,14 @@ function Tag(props) {
       <CloseIcon onClick={onDelete} />
     </div>
   );
-}
+};
 
 Tag.propTypes = {
   label: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
 };
 
-export default function CustomizedHook() {
+const Autocomplete = () => {
   const {
     getRootProps,
     // getInputLabelProps,
@@ -73,7 +73,9 @@ export default function CustomizedHook() {
       ) : null}
     </Root>
   );
-}
+};
+
+export default Autocomplete;
 
 const Root = styled("div")(
   ({ theme }) => `
