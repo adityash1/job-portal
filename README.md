@@ -1,8 +1,44 @@
-# React + Vite
+This project is built using [Bun](https://bun.sh/) and [Vite](https://vitejs.dev/).
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Prerequisites
 
-Currently, two official plugins are available:
+Before you begin, ensure you have installed:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Bun](https://bun.sh/) - You can install Bun by following the instructions on the official website.
+- [Node.js](https://nodejs.org/) (Optional) - Required only if you choose to use npm or yarn for some operations outside of Bun's scope.
+
+## Installation
+
+To set up the project on your local machine:
+
+1. **Clone the repository:**
+
+```
+git clone https://github.com/adityash1/job-portal.git
+```
+
+2. **Install dependencies:**
+
+```
+bun install
+```
+
+## Running the Project
+
+To run the project locally:
+
+- **Preview Production Build:**
+
+```
+bun run build
+```
+
+```
+bun run preview
+```
+
+- **Development Mode:**
+
+```
+bun run dev
+```

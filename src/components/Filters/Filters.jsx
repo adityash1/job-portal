@@ -21,7 +21,6 @@ const Filters = () => {
   // Automatically apply filters when allFilters changes
   useEffect(() => {
     if (Object.keys(allFilters).length > 0) {
-      console.log("alFilters ->", allFilters);
       dispatch(setFilters(allFilters));
     }
   }, [allFilters, dispatch]);
