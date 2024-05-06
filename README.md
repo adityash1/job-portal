@@ -42,3 +42,6 @@ bun run preview
 ```
 bun run dev
 ```
+
+<img width="500" alt="Screenshot 2024-05-06 at 3 46 30 PM" src="https://github.com/adityash1/job-portal/assets/65771169/38d2e2c7-322a-4dfe-a711-97b68a4204ce">
+
