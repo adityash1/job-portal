@@ -25,6 +25,9 @@ const Autocomplete = (props) => {
     options: props.options,
     getOptionLabel: (option) => option.title,
     getInputLabelProps: props.label,
+    onChange: (_, newValue) => {
+      props.onChange(newValue); // Call the passed onChange handler with new value
+    },
     disableClearable: false,
   });
 
@@ -61,6 +64,7 @@ const Autocomplete = (props) => {
 Autocomplete.propTypes = {
   options: PropTypes.array.isRequired,
   label: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
 };
 
 export default Autocomplete;
