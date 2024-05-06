@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { applyFilters } from '../../utils/utils';
 
 export const fetchJobs = createAsyncThunk(
     'filters/fetchJobs',
@@ -21,17 +22,23 @@ export const fetchJobs = createAsyncThunk(
     }
 );
 
-
 export const filtersSlice = createSlice({
     name: 'filters',
     initialState: {
+        rawJobs: [],
         allJobs: [],
         offset: 0,
         hasMore: true,
         loading: false,
         error: null,
+        filters: {}
     },
-    reducers: {},
+    reducers: {
+        setFilters: (state, action) => {
+            state.filters = action.payload;
+            state.allJobs = applyFilters(state.rawJobs, state.filters);
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchJobs.pending, (state) => {
@@ -39,7 +46,8 @@ export const filtersSlice = createSlice({
                 state.error = null;
             })
             .addCase(fetchJobs.fulfilled, (state, action) => {
-                state.allJobs = [...state.allJobs, ...action.payload];
+                state.rawJobs = [...state.rawJobs, ...action.payload];
+                state.allJobs = applyFilters(state.rawJobs, state.filters);
                 state.offset += action.payload.length;
                 state.hasMore = action.payload.length !== 0;
                 state.loading = false;
@@ -50,4 +58,7 @@ export const filtersSlice = createSlice({
             });
     },
 });
+
+export const { setFilters } = filtersSlice.actions;
+
 export default filtersSlice.reducer;

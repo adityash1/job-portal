@@ -1,18 +1,30 @@
-import { engineeringRoles, minBasePay, location } from "../../utils/constants";
+import { filters } from "../../utils/constants";
 import { Box } from "@mui/material";
 import Autocomplete from "../ui/AutoComplete";
 import styles from "./Filters.module.css";
+import { useDispatch } from "react-redux";
+import { setFilters } from "../../features/filters/filtersSlice";
+import { useEffect, useState } from "react";
 
 const Filters = () => {
-  const filters = [
-    { placeholder: "Company Name", options: engineeringRoles, label: "Roles" },
-    { placeholder: "Min Experience", options: location, label: "Remote" },
-    { placeholder: "Min Base Pay", options: minBasePay, label: "Min Base Pay" },
-  ];
+  const dispatch = useDispatch();
+  const [allFilters, setAllFilters] = useState({});
 
   const handleFilterChange = (filterName, value) => {
-    console.log("filters ->", filterName, value);
+    // Merge new filter changes into the existing state
+    setAllFilters((prevFilters) => ({
+      ...prevFilters,
+      [filterName]: value,
+    }));
   };
+
+  // Automatically apply filters when allFilters changes
+  useEffect(() => {
+    if (Object.keys(allFilters).length > 0) {
+      console.log("alFilters ->", allFilters);
+      dispatch(setFilters(allFilters));
+    }
+  }, [allFilters, dispatch]);
 
   return (
     <Box component="div">
@@ -20,10 +32,9 @@ const Filters = () => {
         {filters.map((filter, index) => (
           <Autocomplete
             key={index}
-            placeholder={filter.placeholder}
             options={filter.options}
             label={filter.label}
-            onChange={(value) => handleFilterChange(filter.label, value)}
+            onChange={(value) => handleFilterChange(filter.tag, value)}
           />
         ))}
       </div>
